@@ -12,7 +12,7 @@ const Dashboard = () => {
   if(loading) {
     return (
       <MainWrapper>
-        <Navbar/>
+        {/* <Navbar/> */}
         <Search/>
         <Loading/>
       </MainWrapper>
@@ -21,7 +21,7 @@ const Dashboard = () => {
 
   return (
     <MainWrapper>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Search/>
       <Info/>
       <User/>
