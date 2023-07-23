@@ -1,0 +1,117 @@
+/* font import */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+
+/* variabled */
+:root {
+  --main-font: 'Poppins', sans-serif;
+  --secondary-font: 'Carter One', cursive;
+  --clr-main: hsl(0, 2%, 92%);
+  --clr-main-gray: hsl(0, 0%, 19%);
+  --clr-white: whitesmoke;
+  --clr-font: hsl(0, 3%, 87%);
+  --clr-main-purple: hsl(236, 100%, 65%);
+  --clr-main-blue: rgb(34, 182, 198);
+  --clr-sky-blue: hsl(195, 74%, 48%);
+  --clr-green-dark: hsl(125, 67%, 44%);
+  --clr-green-light: hsl(125, 71%, 66%);
+  --transition: all 0.3s linear;
+  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  --wrapper-padding: 1rem;
+  --wrapper-margin:1rem auto;
+  --radius:10px;
+}
+
+/* dark theme */
+/* @media (prefers-color-scheme: dark) {
+  :root{
+    --clr-main: hsl(186, 100%, 94%);
+    --clr-font: hsl(0, 1%, 17%);
+  }
+} */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--clr-main-blue); 
+  transition: var(--transition);
+  border-radius: 10px;
+}
+
+
+
+/* reseting all elements */
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--main-font);
+}
+
+
+/* -- GLOBAL STYLES -- */
+
+body{
+  min-height: 100vh;
+  min-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--clr-main);
+  font-family: var(--main-font);
+  scroll-behavior: smooth;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: var(--spacing);
+  text-transform: capitalize;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+  font-family: var(--ff-primary);
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-size: 0.875rem;
+}
+
+.error {
+  margin: 1rem;
+  color: rgb(255, 113, 113);
+  text-align: center;
+  text-shadow: 0 0 10px red;
+}
