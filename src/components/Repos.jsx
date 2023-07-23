@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useContext } from 'react'
 
 // file imports
-import { Pie3D, ExampleChart ,Bar3D, Doughnut2D, Column3D } from './charts/index'
+import { Pie3D,Bar3D, Doughnut2D, Column3D } from './charts/index'
 import { GithubContext } from '../context/context'
 import { device } from '../styles'
 
@@ -104,6 +104,8 @@ const RepoWrapper = styled.section`
   }
 
   div {
+    height: auto;
+    width: 100%;
     border-radius: 10px;
     overflow: auto;
     box-shadow: 0px 0px 10px rgba(0,0,0,.2);

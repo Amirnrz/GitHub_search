@@ -11,7 +11,7 @@ const Doughnut2D = ({ data }) =>  {
   const chartConfigs = {
     type: 'doughnut2D',
     width: '100%',
-    height: 310,
+    height: '100%',
     dataFormat: 'json',
     
     dataSource: {
