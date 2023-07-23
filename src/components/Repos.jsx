@@ -104,11 +104,16 @@ const RepoWrapper = styled.section`
   }
 
   div {
-    height: auto;
-    width: 100%;
+    height: 330px;
+    width: auto;
     border-radius: 10px;
     overflow: auto;
     box-shadow: 0px 0px 10px rgba(0,0,0,.2);
+
+    @media ${device.mobileL} {
+      /* width: 100%; */
+    }
+
   }
 
 `
