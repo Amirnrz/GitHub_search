@@ -104,7 +104,7 @@ const RepoWrapper = styled.section`
   }
 
   div {
-    height: 330px;
+    /* height: 330px; */
     width: auto;
     border-radius: 10px;
     overflow: auto;

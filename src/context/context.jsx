@@ -4,84 +4,95 @@ import mockUser from './data/mockUser'
 import mockRepos from './data/mockRepos'
 import mockFollowers from './data/mockFollower'
 
-import { GithubApi} from "../api/apiInstances"
 import { useEffect } from "react";
 import axios from 'axios'
 
+const rootUrl = 'https://api.github.com';
+
 const GithubContext = createContext();
 
-const rootUrl = "https://api.github.com"
+// Provider, Consumer - GithubContext.Provider
 
 const GithubProvider = ({ children }) => {
   const [githubUser, setGithubUser] = useState(mockUser);
   const [repos, setRepos] = useState(mockRepos);
   const [followers, setFollowers] = useState(mockFollowers);
-
-  const [requests, setRequests] = useState(0)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState({
-    show:false,
-    msg:""
-  })
+  // request loading
+  const [requests, setRequests] = useState(0);
+  const [loading, setloading] = useState(false);
+  // error
+  const [error, setError] = useState({ show: false, msg: '' });
 
   const searchGithubUser = async (user) => {
-    setLoading(true)
-    toggleError()
-    const response = await axios(`${rootUrl}/users/${user}`).catch((err => console.log(err)))
+    toggleError();
+    setloading(true);
+    const response = await axios(`${rootUrl}/users/${user}`).catch((err) =>
+      console.log(err)
+    );
+    if (response) {
+      setGithubUser(response.data);
+      const { login, followers_url } = response.data;
 
-    if(response) {
-      setGithubUser(response.data)
-      const { login, followers_url } =  response.data
-
-      await axios(`${rootUrl}/users/${login}/repos?per_page=100`)
-        .then(response => setRepos(response.data))
-
-      await axios(`${followers_url}?per_page=100`)
-        .then(response => setFollowers(response.data))
-
-      await Promise.allSettled([])
-
+      await Promise.allSettled([
+        axios(`${rootUrl}/users/${login}/repos?per_page=100`),
+        axios(`${followers_url}?per_page=100`),
+      ])
+        .then((results) => {
+          const [repos, followers] = results;
+          const status = 'fulfilled';
+          if (repos.status === status) {
+            setRepos(repos.value.data);
+          }
+          if (followers.status === status) {
+            setFollowers(followers.value.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toggleError(true, 'there is no user with that username');
     }
+    checkRequests();
+    setloading(false);
+  };
 
-    checkRequest()
-    setLoading(false)
+  //  check rate
+  const checkRequests = () => {
+    axios(`${rootUrl}/rate_limit`)
+      .then(({ data }) => {
+        let {
+          rate: { remaining },
+        } = data;
+        setRequests(remaining);
+        if (remaining === 0) {
+          toggleError(true, 'sorry, you have exceeded your hourly rate limit!');
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  function toggleError(show = false, msg = '') {
+    setError({ show, msg });
   }
-
-  const checkRequest = async () => {
-    try {
-      let {data:{rate:{remaining}}} = await GithubApi.get('/rate_limit')
-      setRequests(remaining)
-      if(remaining === 0) {
-        toggleError(true, 'sorry you have used all of your requests')
-      }
-    } catch(err) {
-      console.log(err);
-    }
-  } 
-
+  // error
+  useEffect(checkRequests, []);
+  // get initial user
   useEffect(() => {
-    checkRequest()
-  },[])
-
-  function toggleError(show, msg) {
-    setError({show,msg})
-  }
-
+    searchGithubUser('john-smilga');
+  }, []);
   return (
     <GithubContext.Provider
       value={{
         githubUser,
         repos,
         followers,
-        requests, 
+        requests,
         error,
         searchGithubUser,
-        loading
+        loading,
       }}
     >
       {children}
     </GithubContext.Provider>
-  )
-}
+  );
+};
 
 export { GithubContext, GithubProvider }
