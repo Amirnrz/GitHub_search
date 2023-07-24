@@ -40,9 +40,9 @@ const Search = () => {
             onChange={(e) => setUser(e.target.value)}
           />
           </div>
-          {
-           !loading && <button type="submmit">search</button>
-          }
+          {requests > 0 && !loading && (
+              <button type='submit'>search</button>
+            )}
         </div>
       </form>
     </Wrapper>
